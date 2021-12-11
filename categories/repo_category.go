@@ -1,13 +1,13 @@
 package categories
 
 import (
-	"config"
+	"Check-for-Go/config"
+	"Check-for-Go/models"
 	"context"
 	"database/sql"
 	"errors"
 	"fmt"
 	"log"
-	"models"
 )
 
 const (
