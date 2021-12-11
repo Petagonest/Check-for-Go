@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Check-for-Go/categories"
+	"github.com/Petagonest/Check-for-Go/categories"
 	"Check-for-Go/models"
 	"Check-for-Go/products"
 	"Check-for-Go/stores"
