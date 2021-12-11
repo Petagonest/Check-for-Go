@@ -1,11 +1,11 @@
 package main
 
 import (
-	"Petagonest/Check-for-Go/categories"
-	"Petagonest/Check-for-Go/models"
-	"Petagonest/Check-for-Go/products"
-	"Petagonest/Check-for-Go/stores"
-	"Petagonest/Check-for-Go/utils"
+	"Check-for-Go/categories"
+	"Check-for-Go/models"
+	"Check-for-Go/products"
+	"Check-for-Go/stores"
+	"Check-for-Go/utils"
 	"context"
 
 	// "database/sql"

@@ -1,4 +1,4 @@
-module api-mysql
+module github.com/Petagonest
 
 go 1.17
 
