@@ -1,0 +1,1 @@
+web: github.com/Petagonest/Check-for-Go
