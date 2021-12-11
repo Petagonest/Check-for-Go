@@ -1,4 +1,4 @@
-module github.com/Petagonest/Check-for-Go
+module github.com/Petagonest
 
 go 1.17
 
