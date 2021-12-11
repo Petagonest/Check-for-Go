@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Check-for-Go/categories"
+	// "Check-for-Go/categories"
 	"Check-for-Go/models"
 	"Check-for-Go/products"
 	"Check-for-Go/stores"
@@ -40,10 +40,10 @@ func main() {
 		////////////////////////////////////////////////////
 
 		//Categories
-		router.GET("/categories", Auth(GetCategories))
-		router.POST("/categories", Auth(PostCategories))
-		router.PUT("/categories/update/:id", Auth(UpdateCategories))
-		router.DELETE("/categories/delete/:id", Auth(DeleteCategories))
+		// router.GET("/categories", Auth(GetCategories))
+		// router.POST("/categories", Auth(PostCategories))
+		// router.PUT("/categories/update/:id", Auth(UpdateCategories))
+		// router.DELETE("/categories/delete/:id", Auth(DeleteCategories))
 		////////////////////////////////////////////////////
 
 		// untuk menampilkan file html di folder public
@@ -272,98 +272,98 @@ func DeleteProducts(w http.ResponseWriter, _ *http.Request, ps httprouter.Params
 
 /////////////////////////////////////////////////////////////////////
 
-//--------Categories----------//
-// Read
-// GetCategories
-func GetCategories(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	ctx, cancel := context.WithCancel(context.Background())
+// //--------Categories----------//
+// // Read
+// // GetCategories
+// func GetCategories(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+// 	ctx, cancel := context.WithCancel(context.Background())
 
-	defer cancel()
+// 	defer cancel()
 
-	ctgr, err := categories.GetAll(ctx)
+// 	ctgr, err := categories.GetAll(ctx)
 
-	if err != nil {
-		fmt.Println(err)
-	}
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
 
-	utils.ResponseJSON(w, ctgr, http.StatusOK)
-}
+// 	utils.ResponseJSON(w, ctgr, http.StatusOK)
+// }
 
-// Create
-// PostCategories
-func PostCategories(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+// // Create
+// // PostCategories
+// func PostCategories(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+// 	ctx, cancel := context.WithCancel(context.Background())
+// 	defer cancel()
 
-	var ctgr models.Categories
+// 	var ctgr models.Categories
 
-	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
-		utils.ResponseJSON(w, err, http.StatusBadRequest)
-		return
-	}
+// 	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
+// 		utils.ResponseJSON(w, err, http.StatusBadRequest)
+// 		return
+// 	}
 
-	if err := categories.Insert(ctx, ctgr); err != nil {
-		utils.ResponseJSON(w, err, http.StatusInternalServerError)
-		return
-	}
+// 	if err := categories.Insert(ctx, ctgr); err != nil {
+// 		utils.ResponseJSON(w, err, http.StatusInternalServerError)
+// 		return
+// 	}
 
-	res := map[string]string{
-		"status": "Succesfully",
-	}
+// 	res := map[string]string{
+// 		"status": "Succesfully",
+// 	}
 
-	utils.ResponseJSON(w, res, http.StatusCreated)
+// 	utils.ResponseJSON(w, res, http.StatusCreated)
 
-}
+// }
 
-// UpdateCategories
-func UpdateCategories(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+// // UpdateCategories
+// func UpdateCategories(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+// 	ctx, cancel := context.WithCancel(context.Background())
+// 	defer cancel()
 
-	var ctgr models.Categories
+// 	var ctgr models.Categories
 
-	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
-		utils.ResponseJSON(w, err, http.StatusBadRequest)
-		return
-	}
+// 	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
+// 		utils.ResponseJSON(w, err, http.StatusBadRequest)
+// 		return
+// 	}
 
-	var idCategories = ps.ByName("id")
+// 	var idCategories = ps.ByName("id")
 
-	if err := categories.Update(ctx, ctgr, idCategories); err != nil {
-		utils.ResponseJSON(w, err, http.StatusInternalServerError)
-		return
-	}
+// 	if err := categories.Update(ctx, ctgr, idCategories); err != nil {
+// 		utils.ResponseJSON(w, err, http.StatusInternalServerError)
+// 		return
+// 	}
 
-	res := map[string]string{
-		"status": "Succesfully",
-	}
+// 	res := map[string]string{
+// 		"status": "Succesfully",
+// 	}
 
-	utils.ResponseJSON(w, res, http.StatusCreated)
-}
+// 	utils.ResponseJSON(w, res, http.StatusCreated)
+// }
 
-// Delete
-// DeleteCategories
-func DeleteCategories(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+// // Delete
+// // DeleteCategories
+// func DeleteCategories(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
+// 	ctx, cancel := context.WithCancel(context.Background())
+// 	defer cancel()
 
-	var idCategories = ps.ByName("id")
+// 	var idCategories = ps.ByName("id")
 
-	if err := categories.Delete(ctx, idCategories); err != nil {
-		kesalahan := map[string]string{
-			"error": fmt.Sprintf("%v", err),
-		}
-		utils.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
-		return
-	}
+// 	if err := categories.Delete(ctx, idCategories); err != nil {
+// 		kesalahan := map[string]string{
+// 			"error": fmt.Sprintf("%v", err),
+// 		}
+// 		utils.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
+// 		return
+// 	}
 
-	res := map[string]string{
-		"status": "Succesfully",
-	}
+// 	res := map[string]string{
+// 		"status": "Succesfully",
+// 	}
 
-	utils.ResponseJSON(w, res, http.StatusOK)
-}
+// 	utils.ResponseJSON(w, res, http.StatusOK)
+// }
 
 /////////////////////////////////////////////////////////////////////
