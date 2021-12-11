@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/Petagonest/Check-for-Go/categories"
-	"Check-for-Go/models"
-	"Check-for-Go/products"
-	"Check-for-Go/stores"
-	"Check-for-Go/utils"
+	"categories"
 	"context"
+	"models"
+	"products"
+	"stores"
+	"utils"
 
 	// "database/sql"
 	"encoding/json"
