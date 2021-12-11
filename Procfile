@@ -1,1 +1,1 @@
-web:github.com/Petagonest/Check-for-Go
+web:Check-for-Go
