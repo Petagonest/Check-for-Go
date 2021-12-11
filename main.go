@@ -1,10 +1,6 @@
 package main
 
 import (
-	"Check-for-Go/models"
-	"Check-for-Go/products"
-	"Check-for-Go/stores"
-	"Check-for-Go/utils"
 	"context"
 
 	// "database/sql"
@@ -15,6 +11,10 @@ import (
 	"os"
 
 	"github.com/Petagonest/Check-for-Go/categories"
+	"github.com/Petagonest/Check-for-Go/models"
+	"github.com/Petagonest/Check-for-Go/products"
+	"github.com/Petagonest/Check-for-Go/stores"
+	"github.com/Petagonest/Check-for-Go/utils"
 	"github.com/julienschmidt/httprouter"
 )
 

@@ -1,13 +1,14 @@
 package categories
 
 import (
-	"Check-for-Go/config"
-	"Check-for-Go/models"
 	"context"
 	"database/sql"
 	"errors"
 	"fmt"
 	"log"
+
+	"github.com/Petagonest/Check-for-Go/config"
+	"github.com/Petagonest/Check-for-Go/models"
 )
 
 const (
