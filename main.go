@@ -6,9 +6,9 @@ import (
 	// "database/sql"
 	"encoding/json"
 	"fmt"
-	// "log"
+	"log"
 	"net/http"
-	// "os"
+	"os"
 
 	"github.com/Petagonest/Check-for-Go/categories"
 	"github.com/Petagonest/Check-for-Go/models"
@@ -20,9 +20,9 @@ import (
 
 func main() {
 
-	// port := os.Getenv("PORT")
-	// if port == "" {
-	// 	port = "8080"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
 
 		//storeprofile
 		router := httprouter.New()
@@ -47,11 +47,11 @@ func main() {
 		////////////////////////////////////////////////////
 
 		// untuk menampilkan file html di folder public
-		// router.NotFound = http.FileServer(http.Dir("public"))
+		router.NotFound = http.FileServer(http.Dir("public"))
 
-		// fmt.Println("AMAN")
-		// log.Fatal(http.ListenAndServe(":"+port, router))
-	// }
+		fmt.Println("AMAN")
+		log.Fatal(http.ListenAndServe(":"+port, router))
+	}
 }
 
 //auth
