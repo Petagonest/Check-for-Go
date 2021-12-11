@@ -1,13 +1,13 @@
 package categories
 
 import (
-	"Check-for-Go/config"
-	"Check-for-Go/models"
+	"config"
 	"context"
 	"database/sql"
 	"errors"
 	"fmt"
 	"log"
+	"models"
 )
 
 const (
@@ -116,7 +116,7 @@ func Delete(ctx context.Context, id string) error {
 	check, err := s.RowsAffected()
 	fmt.Println(check)
 	if check == 0 {
-		return errors.New("Yah ID yang dicari gaada :(")
+		return errors.New("yah ID yang dicari gaada :(")
 	}
 
 	if err != nil {
