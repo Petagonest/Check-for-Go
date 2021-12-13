@@ -1,4 +1,4 @@
-package config
+package logging
 
 import (
 	"database/sql"
@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"encoding/json"
+	"net/http"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -19,7 +21,7 @@ func PembuatanKoneksi() (*sql.DB, error) {
 	}
 
 	port, err := strconv.Atoi(os.Getenv("DB_PORT"))
-
+	
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
 		os.Getenv("DB_HOST"), port, os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
 
@@ -36,4 +38,17 @@ func PembuatanKoneksi() (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func ResponseJSON(w http.ResponseWriter, p interface{}, status int) {
+	ubahkeByte, err := json.Marshal(p)
+	w.Header().Set("Content-Type", "application/json")
+
+	if err != nil {
+		http.Error(w, "error nii om", http.StatusBadRequest)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	w.Write([]byte(ubahkeByte))
 }

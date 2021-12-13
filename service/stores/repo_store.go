@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	table          = "stores"
+	table          = "provinsi"
 	layoutDateTime = "2021-09-27 03:05:05"
 )
 
@@ -39,20 +39,21 @@ func GetAll(ctx context.Context) ([]models.Provinsi, error) {
 	for rowQuery.Next() {
 		var prov models.Provinsi
 
-		// if err = rowQuery.Scan(
-		// 	&store.Toko_id,
-		// 	&store.Nama_toko,
-		// 	&store.Kodepos_toko,
-		// 	&store.Foto_toko,
-		// 	&store.Deskripsi_toko,
-		// 	&store.Nama_domain,
-		// 	&store.Nama_kota,
-		// 	&store.Nama_kecamatan); err != nil {
-		// 	return nil, err
-		// }
 		if err = rowQuery.Scan(
-			&provinsi.Id,
-			&provinsi.Name); err != nil {
+			&prov.Id,
+			&prov.Name,
+			// &store.Kodepos_toko,
+			// &store.Foto_toko,
+			// &store.Deskripsi_toko,
+			// &store.Nama_domain,
+			// &store.Nama_kota,
+			// &store.Nama_kecamatan
+			); err != nil {
+			return nil, err
+		}
+		if err = rowQuery.Scan(
+			&prov.Id,
+			&prov.Name); err != nil {
 			return nil, err
 		}
 

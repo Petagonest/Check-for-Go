@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Petagonest/Check-for-Go/config"
-	"github.com/Petagonest/Check-for-Go/models"
+	"github.com/Petagonest/Check-for-Go/logging"
+	"github.com/Petagonest/Check-for-Go/datastruct"
 )
 
 const (
