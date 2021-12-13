@@ -28,6 +28,7 @@ func GetAll(ctx context.Context) ([]models.Stores, error) {
 	}
 
 	queryText := fmt.Sprintf("SELECT * FROM %v Order By toko_id ASC", table)
+	// queryText := fmt.Sprintf("SELECT * FROM %v where toko_id = 3", table)
 	rowQuery, err := db.QueryContext(ctx, queryText)
 
 	if err != nil {

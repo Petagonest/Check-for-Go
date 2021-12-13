@@ -36,24 +36,4 @@ type (
 		Deskripsi_category string `json:"deskripsi_category"`
 		Produk_id          int64  `json:"produk_id"`
 	}
-
-	Member struct {
-		Username       string `json:"username"`
-		Firstname      string `json:"firstname"`
-		Lastname       string `json:"lastname"`
-		Phonenumber    string `json:"phonenumber"`
-		Password       string `json:"password"`
-		Email_verified string `json:"email_verified"`
-		Image_file     string `json:"image_file"`
-		Identity_type  string `json:"identity_type"`
-		Identity_no    string `json:"identity_no"`
-		Emergency_call string `json:"emergency_call"`
-		Address_ktp    string `json:"address_ktp"`
-		Domisili       string `json:"domisili"`
-		Create_date    string `json:"create_date"`
-		Update_date    string `json:"update_date"`
-		Email          string `json:"email"`
-		Isprivate      bool   `json:"isPrivate"`
-		User_id        string `json:"user_id"`
-	}
 )
