@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Petagonest/Check-for-Go/config"
-	"github.com/Petagonest/Check-for-Go/models"
+	"github.com/Petagonest/Check-for-Go/logging"
+	"github.com/Petagonest/Check-for-Go/datastruct"
 )
 
 const (
@@ -17,11 +17,11 @@ const (
 )
 
 // GetAll stores
-func GetAll(ctx context.Context) ([]models.Provinsi, error) {
+func GetAll(ctx context.Context) ([]datastruct.Provinsi, error) {
 
-	var provinsi []models.Provinsi
+	var provinsi []datastruct.Provinsi
 
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
@@ -37,7 +37,7 @@ func GetAll(ctx context.Context) ([]models.Provinsi, error) {
 	}
 
 	for rowQuery.Next() {
-		var prov models.Provinsi
+		var prov datastruct.Provinsi
 
 		if err = rowQuery.Scan(
 			&prov.Id,
@@ -64,8 +64,8 @@ func GetAll(ctx context.Context) ([]models.Provinsi, error) {
 }
 
 // Insert stores
-func Insert(ctx context.Context, store models.Stores) error {
-	db, err := config.PembuatanKoneksi()
+func Insert(ctx context.Context, store datastruct.Stores) error {
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
@@ -91,9 +91,9 @@ func Insert(ctx context.Context, store models.Stores) error {
 }
 
 // Update stores
-func Update(ctx context.Context, store models.Stores, id string) error {
+func Update(ctx context.Context, store datastruct.Stores, id string) error {
 
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
@@ -123,7 +123,7 @@ func Update(ctx context.Context, store models.Stores, id string) error {
 
 // Delete stores
 func Delete(ctx context.Context, id string) error {
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)

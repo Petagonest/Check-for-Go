@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Petagonest/Check-for-Go/config"
-	"github.com/Petagonest/Check-for-Go/models"
+	"github.com/Petagonest/Check-for-Go/logging"
+	"github.com/Petagonest/Check-for-Go/datastruct"
 )
 
 const (
@@ -17,11 +17,11 @@ const (
 )
 
 // GetAll products
-func GetAll(ctx context.Context) ([]models.Products, error) {
+func GetAll(ctx context.Context) ([]datastruct.Products, error) {
 
-	var products []models.Products
+	var products []datastruct.Products
 
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
@@ -35,7 +35,7 @@ func GetAll(ctx context.Context) ([]models.Products, error) {
 	}
 
 	for rowQuery.Next() {
-		var produk models.Products
+		var produk datastruct.Products
 
 		if err = rowQuery.Scan(
 			&produk.Produk_id,
@@ -59,8 +59,8 @@ func GetAll(ctx context.Context) ([]models.Products, error) {
 }
 
 // Insert products
-func Insert(ctx context.Context, produk models.Products) error {
-	db, err := config.PembuatanKoneksi()
+func Insert(ctx context.Context, produk datastruct.Products) error {
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
@@ -89,9 +89,9 @@ func Insert(ctx context.Context, produk models.Products) error {
 }
 
 // Update products
-func Update(ctx context.Context, produk models.Products, id string) error {
+func Update(ctx context.Context, produk datastruct.Products, id string) error {
 
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
@@ -124,7 +124,7 @@ func Update(ctx context.Context, produk models.Products, id string) error {
 
 // Delete products
 func Delete(ctx context.Context, id string) error {
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)

@@ -17,11 +17,11 @@ const (
 )
 
 // GetAll categories
-func GetAll(ctx context.Context) ([]models.Categories, error) {
+func GetAll(ctx context.Context) ([]datastruct.Categories, error) {
 
-	var categories []models.Categories
+	var categories []datastruct.Categories
 
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
@@ -35,7 +35,7 @@ func GetAll(ctx context.Context) ([]models.Categories, error) {
 	}
 
 	for rowQuery.Next() {
-		var category models.Categories
+		var category datastruct.Categories
 
 		if err = rowQuery.Scan(
 			&category.Category_id,
@@ -51,8 +51,8 @@ func GetAll(ctx context.Context) ([]models.Categories, error) {
 }
 
 // Insert categories
-func Insert(ctx context.Context, category models.Categories) error {
-	db, err := config.PembuatanKoneksi()
+func Insert(ctx context.Context, category datastruct.Categories) error {
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah ID yang dicari gaada :(", err)
@@ -73,9 +73,9 @@ func Insert(ctx context.Context, category models.Categories) error {
 }
 
 // Update categories
-func Update(ctx context.Context, category models.Categories, id string) error {
+func Update(ctx context.Context, category datastruct.Categories, id string) error {
 
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah ID yang dicari gaada :(", err)
@@ -100,7 +100,7 @@ func Update(ctx context.Context, category models.Categories, id string) error {
 
 // Delete categories
 func Delete(ctx context.Context, id string) error {
-	db, err := config.PembuatanKoneksi()
+	db, err := logging.PembuatanKoneksi()
 
 	if err != nil {
 		log.Fatal("Yah ID yang dicari gaada :(", err)

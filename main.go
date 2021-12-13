@@ -1,20 +1,18 @@
 package main
 
 import (
+	"Check-for-Go/utils"
 	"context"
-
-	// "database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/Petagonest/Check-for-Go/categories"
-	"github.com/Petagonest/Check-for-Go/models"
-	"github.com/Petagonest/Check-for-Go/products"
-	"github.com/Petagonest/Check-for-Go/stores"
-	"github.com/Petagonest/Check-for-Go/utils"
+	"github.com/Petagonest/Check-for-Go/datastruct"
+	"github.com/Petagonest/Check-for-Go/service/categories"
+	"github.com/Petagonest/Check-for-Go/service/products"
+	"github.com/Petagonest/Check-for-Go/service/stores"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -95,7 +93,7 @@ func PostStore(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var str models.Stores
+	var str datastruct.Stores
 
 	if err := json.NewDecoder(r.Body).Decode(&str); err != nil {
 		utils.ResponseJSON(w, err, http.StatusBadRequest)
@@ -121,7 +119,7 @@ func UpdateStore(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var str models.Stores
+	var str datastruct.Stores
 
 	if err := json.NewDecoder(r.Body).Decode(&str); err != nil {
 		utils.ResponseJSON(w, err, http.StatusBadRequest)
@@ -196,7 +194,7 @@ func PostProducts(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var prd models.Products
+	var prd datastruct.Products
 
 	if err := json.NewDecoder(r.Body).Decode(&prd); err != nil {
 		utils.ResponseJSON(w, err, http.StatusBadRequest)
@@ -226,7 +224,7 @@ func UpdateProducts(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var prd models.Products
+	var prd datastruct.Products
 
 	if err := json.NewDecoder(r.Body).Decode(&prd); err != nil {
 		utils.ResponseJSON(w, err, http.StatusBadRequest)
@@ -296,7 +294,7 @@ func PostCategories(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var ctgr models.Categories
+	var ctgr datastruct.Categories
 
 	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
 		utils.ResponseJSON(w, err, http.StatusBadRequest)
@@ -322,7 +320,7 @@ func UpdateCategories(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var ctgr models.Categories
+	var ctgr datastruct.Categories
 
 	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
 		utils.ResponseJSON(w, err, http.StatusBadRequest)
