@@ -17,9 +17,9 @@ const (
 )
 
 // GetAll stores
-func GetAll(ctx context.Context) ([]models.Stores, error) {
+func GetAll(ctx context.Context) ([]models.Provinsi, error) {
 
-	var stores []models.Stores
+	var provinsi []models.Provinsi
 
 	db, err := config.PembuatanKoneksi()
 
@@ -27,8 +27,9 @@ func GetAll(ctx context.Context) ([]models.Stores, error) {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
-	queryText := fmt.Sprintf("SELECT * FROM %v Order By toko_id ASC", table)
+	// queryText := fmt.Sprintf("SELECT * FROM %v Order By toko_id ASC", table)
 	// queryText := fmt.Sprintf("SELECT * FROM %v where toko_id = 3", table)
+	queryText := fmt.Sprintf("SELECT * FROM %v Order By id ASC", table)
 	rowQuery, err := db.QueryContext(ctx, queryText)
 
 	if err != nil {
@@ -36,24 +37,29 @@ func GetAll(ctx context.Context) ([]models.Stores, error) {
 	}
 
 	for rowQuery.Next() {
-		var store models.Stores
+		var prov models.Provinsi
 
+		// if err = rowQuery.Scan(
+		// 	&store.Toko_id,
+		// 	&store.Nama_toko,
+		// 	&store.Kodepos_toko,
+		// 	&store.Foto_toko,
+		// 	&store.Deskripsi_toko,
+		// 	&store.Nama_domain,
+		// 	&store.Nama_kota,
+		// 	&store.Nama_kecamatan); err != nil {
+		// 	return nil, err
+		// }
 		if err = rowQuery.Scan(
-			&store.Toko_id,
-			&store.Nama_toko,
-			&store.Kodepos_toko,
-			&store.Foto_toko,
-			&store.Deskripsi_toko,
-			&store.Nama_domain,
-			&store.Nama_kota,
-			&store.Nama_kecamatan); err != nil {
+			&provinsi.Id,
+			&provinsi.Name); err != nil {
 			return nil, err
 		}
 
-		stores = append(stores, store)
+		provinsi = append(provinsi, prov)
 	}
 
-	return stores, nil
+	return provinsi, nil
 }
 
 // Insert stores

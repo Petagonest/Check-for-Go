@@ -36,4 +36,9 @@ type (
 		Deskripsi_category string `json:"deskripsi_category"`
 		Produk_id          int64  `json:"produk_id"`
 	}
+
+	Provinsi struct {
+		Id   int64  `json:"id"`
+		Name string `json:"name"`
+	}
 )
