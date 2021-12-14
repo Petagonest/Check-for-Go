@@ -71,6 +71,11 @@ func Insert(ctx context.Context, store datastruct.Stores) error {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
+	checkUsername := fmt.Sprintf("SELECT FROM %v where nama_toko = %s", table, store.Nama_toko)
+	if checkUsername != nil {
+		log.Fatal("Nama toko sudah ada :(", err)
+	} 
+
 	queryText := fmt.Sprintf("INSERT INTO %v (toko_id, nama_toko, kodepos_toko, foto_toko, deskripsi_toko, nama_domain, nama_kota, nama_kecamatan) VALUES ('%v','%v','%v','%v','%v','%v','%v','%v')", table,
 		store.Toko_id,
 		store.Nama_toko,
