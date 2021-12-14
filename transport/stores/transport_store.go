@@ -1,4 +1,4 @@
-package stores
+package transport_stores
 
 import (
 	"context"
@@ -7,11 +7,10 @@ import (
 	"net/http"
 
 	"github.com/Petagonest/Check-for-Go/datastruct"
-	"github.com/Petagonest/Check-for-Go/service/stores"
 	"github.com/Petagonest/Check-for-Go/logging"
+	"github.com/Petagonest/Check-for-Go/service/stores"
 	"github.com/julienschmidt/httprouter"
 )
-
 
 //------ store -----//
 // Read

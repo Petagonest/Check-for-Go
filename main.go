@@ -12,7 +12,7 @@ import (
 	"github.com/Petagonest/Check-for-Go/datastruct"
 	"github.com/Petagonest/Check-for-Go/service/categories"
 	"github.com/Petagonest/Check-for-Go/service/products"
-	"github.com/Petagonest/Check-for-Go/transport/stores/stores"
+	"github.com/Petagonest/Check-for-Go/transport/transport_stores"
 	"github.com/julienschmidt/httprouter"
 )
 
