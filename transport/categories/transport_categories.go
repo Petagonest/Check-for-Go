@@ -12,7 +12,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-
 //--------Categories----------//
 // Read
 // GetCategories

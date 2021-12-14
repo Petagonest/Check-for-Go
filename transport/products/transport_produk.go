@@ -11,7 +11,6 @@ import (
 	"github.com/Petagonest/Check-for-Go/service/products"
 	"github.com/julienschmidt/httprouter"
 )
-
 //--------Products----------//
 // Read
 // GetProducts

@@ -5,7 +5,10 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"github.com/Petagonest/Check-for-Go/transport/stores"
+
+	transport_categories "github.com/Petagonest/Check-for-Go/transport/categories"
+	transport_products "github.com/Petagonest/Check-for-Go/transport/products"
+	transport_stores "github.com/Petagonest/Check-for-Go/transport/stores"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -17,24 +20,24 @@ func main() {
 
 		//storeprofile
 		router := httprouter.New()
-		router.GET("/stores", Auth(GetStore))
-		router.POST("/stores", Auth(PostStore))
-		router.PUT("/stores/update/:id", (UpdateStore))
-		router.DELETE("/stores/delete/:id", (DeleteStore))
+		router.GET("/stores", Auth(transport_stores.GetStore))
+		router.POST("/stores", Auth(transport_stores.PostStore))
+		router.PUT("/stores/update/:id", Auth(transport_stores.UpdateStore))
+		router.DELETE("/stores/delete/:id", Auth(transport_stores.DeleteStore))
 		////////////////////////////////////////////////////
 
 		//products
-		router.GET("/products", Auth(GetProducts))
-		router.POST("/products", PostProducts)
-		router.PUT("/products/update/:id", UpdateProducts)
-		router.DELETE("/products/delete/:id", Auth(DeleteProducts))
+		router.GET("/products", Auth(transport_products.GetProducts))
+		router.POST("/products", transport_products.PostProducts)
+		router.PUT("/products/update/:id", transport_products.UpdateProducts)
+		router.DELETE("/products/delete/:id", Auth(transport_products.DeleteProducts))
 		////////////////////////////////////////////////////
 
 		//Categories
-		router.GET("/categories", Auth(GetCategories))
-		router.POST("/categories", Auth(PostCategories))
-		router.PUT("/categories/update/:id", Auth(UpdateCategories))
-		router.DELETE("/categories/delete/:id", Auth(DeleteCategories))
+		router.GET("/categories", Auth(transport_categories.GetCategories))
+		router.POST("/categories", Auth(transport_categories.PostCategories))
+		router.PUT("/categories/update/:id", Auth(transport_categories.UpdateCategories))
+		router.DELETE("/categories/delete/:id", Auth(transport_categories.DeleteCategories))
 		////////////////////////////////////////////////////
 
 		// untuk menampilkan file html di folder public
