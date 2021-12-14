@@ -1,4 +1,4 @@
-package trans_stores
+package stores
 
 import (
 	"context"
