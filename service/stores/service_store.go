@@ -6,20 +6,21 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	
 
 	"github.com/Petagonest/Check-for-Go/logging"
 	"github.com/Petagonest/Check-for-Go/datastruct"
 )
 
 const (
-	table          = "provinsi"
+	table          = "stores"
 	layoutDateTime = "2021-09-27 03:05:05"
 )
 
 // GetAll stores
-func GetAll(ctx context.Context) ([]datastruct.Provinsi, error) {
+func GetAll(ctx context.Context) ([]datastruct.Stores, error) {
 
-	var provinsi []datastruct.Provinsi
+	var stores []datastruct.Stores
 
 	db, err := logging.PembuatanKoneksi()
 
@@ -27,9 +28,9 @@ func GetAll(ctx context.Context) ([]datastruct.Provinsi, error) {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
-	// queryText := fmt.Sprintf("SELECT * FROM %v Order By toko_id ASC", table)
+	queryText := fmt.Sprintf("SELECT * FROM %v Order By toko_id ASC", table)
 	// queryText := fmt.Sprintf("SELECT * FROM %v where toko_id = 3", table)
-	queryText := fmt.Sprintf("SELECT * FROM %v Order By id ASC", table)
+	// queryText := fmt.Sprintf("SELECT * FROM %v Order By id ASC", table)
 	rowQuery, err := db.QueryContext(ctx, queryText)
 
 	if err != nil {
@@ -37,30 +38,30 @@ func GetAll(ctx context.Context) ([]datastruct.Provinsi, error) {
 	}
 
 	for rowQuery.Next() {
-		var prov datastruct.Provinsi
+		var store datastruct.Stores
 
 		if err = rowQuery.Scan(
-			&prov.Id,
-			&prov.Name,
-			// &store.Kodepos_toko,
-			// &store.Foto_toko,
-			// &store.Deskripsi_toko,
-			// &store.Nama_domain,
-			// &store.Nama_kota,
-			// &store.Nama_kecamatan
+			&store.Toko_id,
+			&store.Nama_toko,
+			&store.Kodepos_toko,
+			&store.Foto_toko,
+			&store.Deskripsi_toko,
+			&store.Nama_domain,
+			&store.Nama_kota,
+			&store.Nama_kecamatan,
 			); err != nil {
 			return nil, err
 		}
-		if err = rowQuery.Scan(
-			&prov.Id,
-			&prov.Name); err != nil {
-			return nil, err
-		}
+		// if err = rowQuery.Scan(
+		// 	&prov.Id,
+		// 	&prov.Name); err != nil {
+		// 	return nil, err
+		// }
 
-		provinsi = append(provinsi, prov)
+		stores = append(stores, store)
 	}
 
-	return provinsi, nil
+	return stores, nil
 }
 
 // Insert stores
@@ -72,10 +73,22 @@ func Insert(ctx context.Context, store datastruct.Stores) error {
 	}
 
 	checkUsername := fmt.Sprintf("SELECT FROM %v where nama_toko = %s", table, store.Nama_toko)
-	if checkUsername != nil {
-		log.Fatal("Nama toko sudah ada :(", err)
-	} 
+	s, err := db.ExecContext(ctx, checkUsername)
 
+	if err != nil && err != sql.ErrNoRows {
+		return err
+	}
+
+	check, err := s.RowsAffected()
+	fmt.Println(check)
+	if check == 0 {
+		return errors.New("Nama toko sudah ada :(")
+	}
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	
 	queryText := fmt.Sprintf("INSERT INTO %v (toko_id, nama_toko, kodepos_toko, foto_toko, deskripsi_toko, nama_domain, nama_kota, nama_kecamatan) VALUES ('%v','%v','%v','%v','%v','%v','%v','%v')", table,
 		store.Toko_id,
 		store.Nama_toko,
