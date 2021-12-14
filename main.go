@@ -1,7 +1,6 @@
 package main
 
 import (
-	"Check-for-Go/utils"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -12,6 +11,7 @@ import (
 	"github.com/Petagonest/Check-for-Go/datastruct"
 	"github.com/Petagonest/Check-for-Go/service/categories"
 	"github.com/Petagonest/Check-for-Go/service/products"
+	"github.com/Petagonest/Check-for-Go/logging"
 	"github.com/Petagonest/Check-for-Go/transport/transport_stores"
 	"github.com/julienschmidt/httprouter"
 )
@@ -83,7 +83,7 @@ func GetProducts(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 		fmt.Println(err)
 	}
 
-	utils.ResponseJSON(w, prd, http.StatusOK)
+	logging.ResponseJSON(w, prd, http.StatusOK)
 }
 
 // Create
@@ -101,12 +101,12 @@ func PostProducts(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var prd datastruct.Products
 
 	if err := json.NewDecoder(r.Body).Decode(&prd); err != nil {
-		utils.ResponseJSON(w, err, http.StatusBadRequest)
+		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
 	if err := products.Insert(ctx, prd); err != nil {
-		utils.ResponseJSON(w, err, http.StatusInternalServerError)
+		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -114,7 +114,7 @@ func PostProducts(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		"status": "Succesfully",
 	}
 
-	utils.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, res, http.StatusCreated)
 
 }
 
@@ -131,14 +131,14 @@ func UpdateProducts(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 	var prd datastruct.Products
 
 	if err := json.NewDecoder(r.Body).Decode(&prd); err != nil {
-		utils.ResponseJSON(w, err, http.StatusBadRequest)
+		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
 	var idProducts = ps.ByName("id")
 
 	if err := products.Update(ctx, prd, idProducts); err != nil {
-		utils.ResponseJSON(w, err, http.StatusInternalServerError)
+		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -146,7 +146,7 @@ func UpdateProducts(w http.ResponseWriter, r *http.Request, ps httprouter.Params
 		"status": "Succesfully",
 	}
 
-	utils.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, res, http.StatusCreated)
 }
 
 // Delete
@@ -161,7 +161,7 @@ func DeleteProducts(w http.ResponseWriter, _ *http.Request, ps httprouter.Params
 		kesalahan := map[string]string{
 			"error": fmt.Sprintf("%v", err),
 		}
-		utils.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
+		logging.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
 		return
 	}
 
@@ -169,7 +169,7 @@ func DeleteProducts(w http.ResponseWriter, _ *http.Request, ps httprouter.Params
 		"status": "Succesfully",
 	}
 
-	utils.ResponseJSON(w, res, http.StatusOK)
+	logging.ResponseJSON(w, res, http.StatusOK)
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -188,7 +188,7 @@ func GetCategories(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) 
 		fmt.Println(err)
 	}
 
-	utils.ResponseJSON(w, ctgr, http.StatusOK)
+	logging.ResponseJSON(w, ctgr, http.StatusOK)
 }
 
 // Create
@@ -201,12 +201,12 @@ func PostCategories(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 	var ctgr datastruct.Categories
 
 	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
-		utils.ResponseJSON(w, err, http.StatusBadRequest)
+		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
 	if err := categories.Insert(ctx, ctgr); err != nil {
-		utils.ResponseJSON(w, err, http.StatusInternalServerError)
+		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -214,7 +214,7 @@ func PostCategories(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 		"status": "Succesfully",
 	}
 
-	utils.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, res, http.StatusCreated)
 
 }
 
@@ -227,14 +227,14 @@ func UpdateCategories(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 	var ctgr datastruct.Categories
 
 	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
-		utils.ResponseJSON(w, err, http.StatusBadRequest)
+		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
 	var idCategories = ps.ByName("id")
 
 	if err := categories.Update(ctx, ctgr, idCategories); err != nil {
-		utils.ResponseJSON(w, err, http.StatusInternalServerError)
+		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -242,7 +242,7 @@ func UpdateCategories(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 		"status": "Succesfully",
 	}
 
-	utils.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, res, http.StatusCreated)
 }
 
 // Delete
@@ -257,7 +257,7 @@ func DeleteCategories(w http.ResponseWriter, _ *http.Request, ps httprouter.Para
 		kesalahan := map[string]string{
 			"error": fmt.Sprintf("%v", err),
 		}
-		utils.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
+		logging.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
 		return
 	}
 
@@ -265,7 +265,7 @@ func DeleteCategories(w http.ResponseWriter, _ *http.Request, ps httprouter.Para
 		"status": "Succesfully",
 	}
 
-	utils.ResponseJSON(w, res, http.StatusOK)
+	logging.ResponseJSON(w, res, http.StatusOK)
 }
 
 /////////////////////////////////////////////////////////////////////
