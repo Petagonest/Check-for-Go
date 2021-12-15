@@ -58,8 +58,7 @@ func Insert(ctx context.Context, category datastruct.Categories) error {
 		log.Fatal("Yah ID yang dicari gaada :(", err)
 	}
 
-	queryText := fmt.Sprintf("INSERT INTO %v (category_id, nama_category, deskripsi_category) values('%v','%v','%v')", table,
-		category.Category_id,
+	queryText := fmt.Sprintf("INSERT INTO categories (category_id, nama_category, deskripsi_category) VALUES (nextval('category_id'),'%v','%v')",
 		category.Nama_category,
 		category.Deskripsi_category,
 	)

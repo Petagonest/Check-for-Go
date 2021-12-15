@@ -20,13 +20,13 @@ func GetCategories(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) 
 
 	defer cancel()
 
-	ctgr, err := categories.GetAll(ctx)
+	category, err := categories.GetAll(ctx)
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	logging.ResponseJSON(w, ctgr, http.StatusOK)
+	logging.ResponseJSON(w, category, http.StatusOK)
 }
 
 // Create
@@ -36,23 +36,23 @@ func PostCategories(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var ctgr datastruct.Categories
+	var category datastruct.Categories
 
-	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&category); err != nil {
 		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	if err := categories.Insert(ctx, ctgr); err != nil {
+	if err := categories.Insert(ctx, category); err != nil {
 		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, responsukses, http.StatusCreated)
 
 }
 
@@ -62,25 +62,25 @@ func UpdateCategories(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var ctgr datastruct.Categories
+	var category datastruct.Categories
 
-	if err := json.NewDecoder(r.Body).Decode(&ctgr); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&category); err != nil {
 		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
 	var idCategories = ps.ByName("id")
 
-	if err := categories.Update(ctx, ctgr, idCategories); err != nil {
+	if err := categories.Update(ctx, category, idCategories); err != nil {
 		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, responsukses, http.StatusCreated)
 }
 
 // Delete
@@ -99,11 +99,11 @@ func DeleteCategories(w http.ResponseWriter, _ *http.Request, ps httprouter.Para
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusOK)
+	logging.ResponseJSON(w, responsukses, http.StatusOK)
 }
 
 /////////////////////////////////////////////////////////////////////

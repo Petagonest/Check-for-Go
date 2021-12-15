@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Petagonest/Check-for-Go/logging"
 	"github.com/Petagonest/Check-for-Go/datastruct"
+	"github.com/Petagonest/Check-for-Go/logging"
 )
 
 const (
@@ -66,8 +66,7 @@ func Insert(ctx context.Context, produk datastruct.Products) error {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
-	queryText := fmt.Sprintf("INSERT INTO %v (produk_id, nama_produk, deskripsi_produk, stok, harga_produk, foto_produk, rating_produk, jumlah_terjual, jumlah_dilihat, ukuran, warna) values('%v','%v','%v','%v','%v','%v','%v','%v','%v','%v','%v')", table,
-		produk.Produk_id,
+	queryText := fmt.Sprintf("INSERT INTO products (produk_id, nama_produk, deskripsi_produk, stok, harga_produk, foto_produk, rating_produk, jumlah_terjual, jumlah_dilihat, ukuran, warna) VALUES (nextval('produk_id'),'%v','%v','%v','%v','%v','%v','%v','%v','%v','%v')",
 		produk.Nama_produk,
 		produk.Deskripsi_produk,
 		produk.Stok,

@@ -6,10 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	
 
-	"github.com/Petagonest/Check-for-Go/logging"
 	"github.com/Petagonest/Check-for-Go/datastruct"
+	"github.com/Petagonest/Check-for-Go/logging"
 )
 
 const (
@@ -49,7 +48,7 @@ func GetAll(ctx context.Context) ([]datastruct.Stores, error) {
 			&store.Nama_domain,
 			&store.Nama_kota,
 			&store.Nama_kecamatan,
-			); err != nil {
+		); err != nil {
 			return nil, err
 		}
 		// if err = rowQuery.Scan(
@@ -72,25 +71,21 @@ func Insert(ctx context.Context, store datastruct.Stores) error {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
-	checkUsername := fmt.Sprintf("SELECT FROM %v where nama_toko = %s", table, store.Nama_toko)
-	s, err := db.ExecContext(ctx, checkUsername)
+	// checkUsername := fmt.Sprintf("SELECT FROM stores where nama_toko = %s", store.Nama_toko)
+	// if checkUsername == store.Nama_toko {
+	// 	s, err := db.ExecContext(ctx, checkUsername)
 
-	if err != nil && err != sql.ErrNoRows {
-		return err
-	}
+	// 	check, err := s.RowsAffected()
+	// 	fmt.Println(check)
+	// 	if check == 0 {
+	// 		return errors.New("Nama toko sudah ada :(")
+	// 	}
 
-	check, err := s.RowsAffected()
-	fmt.Println(check)
-	if check == 0 {
-		return errors.New("Nama toko sudah ada :(")
-	}
-
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	
-	queryText := fmt.Sprintf("INSERT INTO %v (toko_id, nama_toko, kodepos_toko, foto_toko, deskripsi_toko, nama_domain, nama_kota, nama_kecamatan) VALUES ('%v','%v','%v','%v','%v','%v','%v','%v')", table,
-		store.Toko_id,
+	// 	if err != nil {
+	// 		fmt.Println(err.Error())
+	// 	}
+	// }
+	queryText := fmt.Sprintf("INSERT INTO stores (toko_id, nama_toko, kodepos_toko, foto_toko, deskripsi_toko, nama_domain, nama_kota, nama_kecamatan) VALUES (nextval('toko_id'),'%v','%v','%v','%v','%v','%v','%v')",
 		store.Nama_toko,
 		store.Kodepos_toko,
 		store.Foto_toko,

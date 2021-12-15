@@ -19,76 +19,66 @@ func GetProducts(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 
 	defer cancel()
 
-	prd, err := products.GetAll(ctx)
+	product, err := products.GetAll(ctx)
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	logging.ResponseJSON(w, prd, http.StatusOK)
+	logging.ResponseJSON(w, product, http.StatusOK)
 }
 
 // Create
 // PostProducts
 func PostProducts(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
-	if r.Header.Get("Content-Type") != "aCheck-for-Goication/json" {
-		http.Error(w, "Gunakan content type aCheck-for-Goication / json", http.StatusBadRequest)
-		return
-	}
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var prd datastruct.Products
+	var product datastruct.Products
 
-	if err := json.NewDecoder(r.Body).Decode(&prd); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
 		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	if err := products.Insert(ctx, prd); err != nil {
+	if err := products.Insert(ctx, product); err != nil {
 		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, responsukses, http.StatusCreated)
 
 }
 
 // UpdateProducts
 func UpdateProducts(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	if r.Header.Get("Content-Type") != "aCheck-for-Goication/json" {
-		http.Error(w, "Gunakan content type aCheck-for-Goication / json", http.StatusBadRequest)
-		return
-	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var prd datastruct.Products
+	var product datastruct.Products
 
-	if err := json.NewDecoder(r.Body).Decode(&prd); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
 		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
 	var idProducts = ps.ByName("id")
 
-	if err := products.Update(ctx, prd, idProducts); err != nil {
+	if err := products.Update(ctx, product, idProducts); err != nil {
 		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, responsukses, http.StatusCreated)
 }
 
 // Delete
@@ -107,11 +97,11 @@ func DeleteProducts(w http.ResponseWriter, _ *http.Request, ps httprouter.Params
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusOK)
+	logging.ResponseJSON(w, responsukses, http.StatusOK)
 }
 
 /////////////////////////////////////////////////////////////////////

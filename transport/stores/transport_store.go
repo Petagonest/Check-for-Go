@@ -1,4 +1,4 @@
-package trans_stores
+package transport_stores
 
 import (
 	"context"
@@ -36,23 +36,24 @@ func PostStore(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var str datastruct.Stores
+	var store datastruct.Stores
 
-	if err := json.NewDecoder(r.Body).Decode(&str); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&store); err != nil {
 		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	if err := stores.Insert(ctx, str); err != nil {
+	if err := stores.Insert(ctx, store); err != nil {
 		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	res := map[string]string{
+	
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, responsukses, http.StatusCreated)
 
 }
 
@@ -62,25 +63,25 @@ func UpdateStore(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var str datastruct.Stores
+	var store datastruct.Stores
 
-	if err := json.NewDecoder(r.Body).Decode(&str); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&store); err != nil {
 		logging.ResponseJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
 	var idStores = ps.ByName("id")
 
-	if err := stores.Update(ctx, str, idStores); err != nil {
+	if err := stores.Update(ctx, store, idStores); err != nil {
 		logging.ResponseJSON(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusCreated)
+	logging.ResponseJSON(w, responsukses, http.StatusCreated)
 }
 
 // Delete
@@ -99,11 +100,11 @@ func DeleteStore(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	res := map[string]string{
+	responsukses := map[string]string{
 		"status": "Succesfully",
 	}
 
-	logging.ResponseJSON(w, res, http.StatusOK)
+	logging.ResponseJSON(w, responsukses, http.StatusOK)
 }
 
 /////////////////////////////////////////////////////////////////////
