@@ -14,8 +14,8 @@ import (
 
 //------ store -----//
 // Read
-// GETstore
-func GetStore(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+// GetAllStore
+func GetAllStore(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	defer cancel()
@@ -24,6 +24,25 @@ func GetStore(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 
 	if err != nil {
 		fmt.Println(err)
+	}
+
+	logging.ResponseJSON(w, stores, http.StatusOK)
+}
+
+// GetOneStore
+func GetOneStore(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	var searchStores = ps.ByName("search")
+	stores, err := stores.GetOneStore(ctx, searchStores)
+
+	if err != nil {
+		kesalahan := map[string]string{
+			"error": fmt.Sprintf("%v", err),
+		}
+		logging.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
+		return
 	}
 
 	logging.ResponseJSON(w, stores, http.StatusOK)
@@ -48,7 +67,6 @@ func PostStore(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	
 	responsukses := map[string]string{
 		"status": "Succesfully",
 	}

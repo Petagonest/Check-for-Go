@@ -27,7 +27,7 @@ func GetAll(ctx context.Context) ([]datastruct.Products, error) {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
-	queryText := fmt.Sprintf("SELECT * FROM %v Order By produk_id ASC", table)
+	queryText := fmt.Sprintf("SELECT * FROM %v Order By nama_produk ASC", table)
 	rowQuery, err := db.QueryContext(ctx, queryText)
 
 	if err != nil {

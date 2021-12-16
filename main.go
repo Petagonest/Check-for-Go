@@ -20,24 +20,25 @@ func main() {
 
 		//storeprofile
 		router := httprouter.New()
-		router.GET("/stores", Auth(transport_stores.GetStore))
+		router.GET("/stores", Auth(transport_stores.GetAllStore))
+		router.GET("/stores/:search", Auth(transport_stores.GetOneStore))
 		router.POST("/stores", Auth(transport_stores.PostStore))
-		router.PUT("/stores/update/:id", Auth(transport_stores.UpdateStore))
-		router.DELETE("/stores/delete/:id", Auth(transport_stores.DeleteStore))
+		router.PUT("/stores/:id", Auth(transport_stores.UpdateStore))
+		router.DELETE("/stores/:id", Auth(transport_stores.DeleteStore))
 		////////////////////////////////////////////////////
 
 		//products
 		router.GET("/products", Auth(transport_products.GetProducts))
 		router.POST("/products", transport_products.PostProducts)
-		router.PUT("/products/update/:id", transport_products.UpdateProducts)
-		router.DELETE("/products/delete/:id", Auth(transport_products.DeleteProducts))
+		router.PUT("/products/:id", transport_products.UpdateProducts)
+		router.DELETE("/products/:id", Auth(transport_products.DeleteProducts))
 		////////////////////////////////////////////////////
 
 		//Categories
 		router.GET("/categories", Auth(transport_categories.GetCategories))
 		router.POST("/categories", Auth(transport_categories.PostCategories))
-		router.PUT("/categories/update/:id", Auth(transport_categories.UpdateCategories))
-		router.DELETE("/categories/delete/:id", Auth(transport_categories.DeleteCategories))
+		router.PUT("/categories/:id", Auth(transport_categories.UpdateCategories))
+		router.DELETE("/categories/:id", Auth(transport_categories.DeleteCategories))
 		////////////////////////////////////////////////////
 
 		// untuk menampilkan file html di folder public

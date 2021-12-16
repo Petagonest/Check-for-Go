@@ -1,7 +1,7 @@
 package datastruct
 
 type (
-	//Stores
+	//Toko
 	Stores struct {
 		Toko_id        int64  `json:"toko_id"`
 		Nama_toko      string `json:"nama_toko"`
@@ -13,7 +13,7 @@ type (
 		Nama_domain    string `json:"nama_domain"`
 	}
 
-	//Products
+	//Produk
 	Products struct {
 		Produk_id        int64   `json:"produk_id"`
 		Nama_produk      string  `json:"nama_produk"`
@@ -29,16 +29,34 @@ type (
 		Toko_id          int64   `json:"toko_id"`
 	}
 
-	//Categories
+	//Kategori
 	Categories struct {
 		Category_id        int64  `json:"category_id"`
 		Nama_category      string `json:"nama_category"`
 		Deskripsi_category string `json:"deskripsi_category"`
 		Produk_id          int64  `json:"produk_id"`
 	}
-
-	Provinsi struct {
+	//Provinsi
+	Provinces struct {
 		Id   int64  `json:"id"`
 		Name string `json:"name"`
+	}
+	//Kabupaten Kota
+	Regencies struct {
+		Id          int64  `json:"id"`
+		Province_id int64  `json:"province_id"`
+		Name        string `json:"name"`
+	}
+	//Kecamatan
+	Districts struct {
+		Id         int64  `json:"id"`
+		Regency_id int64  `json:"regency_id"`
+		Name       string `json:"name"`
+	}
+	//Kelurahan/Desa
+	Villages struct {
+		Id          int64  `json:"id"`
+		District_id int64  `json:"district_id"`
+		Name        string `json:"name"`
 	}
 )
