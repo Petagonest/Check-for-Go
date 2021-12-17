@@ -47,6 +47,7 @@ func GetAll(ctx context.Context) ([]datastruct.Stores, error) {
 			&store.Nama_domain,
 			&store.Nama_kota,
 			&store.Nama_kecamatan,
+			&store.Nama_kelurahan,
 		); err != nil {
 			return nil, err
 		}
@@ -69,7 +70,8 @@ func SearchingStores(ctx context.Context, searchStores string) ([]datastruct.Sto
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
-	queryText := fmt.Sprintf("SELECT * FROM stores WHERE nama_toko LIKE '%%%s%%' OR nama_kota LIKE '%%%s%%' OR nama_kecamatan LIKE '%%%s%%' OR nama_domain LIKE '%%%s%%'",
+	queryText := fmt.Sprintf("SELECT * FROM stores WHERE nama_toko LIKE '%%%s%%' OR nama_kota LIKE '%%%s%%' OR nama_kecamatan LIKE '%%%s%%' OR nama_domain LIKE '%%%s%%' OR nama_kelurahan LIKE '%%%s%%'",
+		searchStores,
 		searchStores,
 		searchStores,
 		searchStores,
@@ -107,6 +109,7 @@ func SearchingStores(ctx context.Context, searchStores string) ([]datastruct.Sto
 			&store.Nama_domain,
 			&store.Nama_kota,
 			&store.Nama_kecamatan,
+			&store.Nama_kelurahan,
 		); err != nil {
 			return nil, err
 		}
@@ -125,21 +128,21 @@ func Insert(ctx context.Context, store datastruct.Stores) error {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
-	// checkUsername := fmt.Sprintf("SELECT FROM stores where nama_toko = %s", store.Nama_toko)
-	// if checkUsername == store.Nama_toko {
-	// 	s, err := db.ExecContext(ctx, checkUsername)
+	checkUsername := fmt.Sprintf("SELECT FROM stores where nama_toko = %s", store.Nama_toko)
+	if checkUsername == store.Nama_toko {
+		s, err := db.ExecContext(ctx, checkUsername)
 
-	// 	check, err := s.RowsAffected()
-	// 	fmt.Println(check)
-	// 	if check == 0 {
-	// 		return errors.New("Nama toko sudah ada :(")
-	// 	}
+		check, err := s.RowsAffected()
+		fmt.Println(check)
+		if check == 0 {
+			return errors.New("Nama toko sudah ada :(")
+		}
 
-	// 	if err != nil {
-	// 		fmt.Println(err.Error())
-	// 	}
-	// }
-	queryText := fmt.Sprintf("INSERT INTO stores (toko_id, nama_toko, kodepos_toko, foto_toko, deskripsi_toko, nama_domain, nama_kota, nama_kecamatan) VALUES (nextval('toko_id'),'%v','%v','%v','%v','%v','%v','%v')",
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}
+	queryText := fmt.Sprintf("INSERT INTO stores (toko_id, nama_toko, kodepos_toko, foto_toko, deskripsi_toko, nama_domain, nama_kota, nama_kecamatan, nama_kelurahan) VALUES (nextval('toko_id'),'%v','%v','%v','%v','%v','%v','%v','%v')",
 		store.Nama_toko,
 		store.Kodepos_toko,
 		store.Foto_toko,
@@ -147,6 +150,7 @@ func Insert(ctx context.Context, store datastruct.Stores) error {
 		store.Nama_domain,
 		store.Nama_kota,
 		store.Nama_kecamatan,
+		store.Nama_kelurahan,
 	)
 
 	_, err = db.ExecContext(ctx, queryText)
@@ -166,7 +170,7 @@ func Update(ctx context.Context, store datastruct.Stores, id string) error {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
 
-	queryText := fmt.Sprintf("UPDATE %v set nama_toko ='%s', kodepos_toko ='%s', foto_toko ='%s', deskripsi_toko ='%s', nama_domain ='%s', nama_kota ='%s', nama_kecamatan ='%s' where toko_id = %s",
+	queryText := fmt.Sprintf("UPDATE %v set nama_toko ='%s', kodepos_toko ='%s', foto_toko ='%s', deskripsi_toko ='%s', nama_domain ='%s', nama_kota ='%s', nama_kecamatan ='%s',  nama_kelurahan ='%s' where toko_id = %s",
 		table,
 		store.Nama_toko,
 		store.Kodepos_toko,
@@ -175,6 +179,7 @@ func Update(ctx context.Context, store datastruct.Stores, id string) error {
 		store.Nama_domain,
 		store.Nama_kota,
 		store.Nama_kecamatan,
+		store.Nama_kelurahan,
 		id,
 	)
 	fmt.Println(queryText)

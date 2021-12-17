@@ -8,6 +8,7 @@ import (
 
 	transport_categories "github.com/Petagonest/Check-for-Go/transport/categories"
 	transport_products "github.com/Petagonest/Check-for-Go/transport/products"
+	// "github.com/Petagonest/Check-for-Go/transport/searching"
 	transport_stores "github.com/Petagonest/Check-for-Go/transport/stores"
 	"github.com/julienschmidt/httprouter"
 )
@@ -41,6 +42,8 @@ func main() {
 		router.POST("/categories", Auth(transport_categories.PostCategories))
 		router.PUT("/categories/:id", Auth(transport_categories.UpdateCategories))
 		router.DELETE("/categories/:id", Auth(transport_categories.DeleteCategories))
+
+		// router.GET("/searching/:search", (searching.Search))
 		////////////////////////////////////////////////////
 
 		// untuk menampilkan file html di folder public

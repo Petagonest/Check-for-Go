@@ -8,6 +8,7 @@ type (
 		Kodepos_toko   string `json:"kodepos_toko"`
 		Nama_kota      string `json:"nama_kota"`
 		Nama_kecamatan string `json:"nama_kecamatan"`
+		Nama_kelurahan string `json:"nama_kelurahan"`
 		Foto_toko      string `json:"foto_toko"`
 		Deskripsi_toko string `json:"deskripsi_toko"`
 		Nama_domain    string `json:"nama_domain"`

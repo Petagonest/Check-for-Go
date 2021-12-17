@@ -2,22 +2,20 @@ package searching
 
 import (
 	"context"
-"encoding/json"
-"fmt"
-"net/http"
+	"fmt"
+	"net/http"
 
 	"github.com/Petagonest/Check-for-Go/logging"
-	"github.com/Petagonest/Check-for-Go/service/search"
+	search "github.com/Petagonest/Check-for-Go/service/searching"
 	"github.com/julienschmidt/httprouter"
 )
-
 
 func Search(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var search = ps.ByName("search")
-	search, err := search.searchAll(ctx, search)
+	var SearchingAll = ps.ByName("search")
+	search1, search2, search3, err := search.SearchingAll(ctx, SearchingAll, SearchingAll, SearchingAll)
 
 	if err != nil {
 		kesalahan := map[string]string{
@@ -27,5 +25,5 @@ func Search(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
 		return
 	}
 
-	logging.ResponseJSON(w, stores, http.StatusOK)
+	logging.ResponseJSONSEARCH(w, search1, search2, search3, http.StatusOK)
 }
