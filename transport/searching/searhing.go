@@ -17,7 +17,7 @@ func Search(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
 	defer cancel()
 
 	var search = ps.ByName("search")
-	stores, err := search(ctx, search)
+	search, err := search.searchAll(ctx, search)
 
 	if err != nil {
 		kesalahan := map[string]string{

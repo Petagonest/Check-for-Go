@@ -13,12 +13,14 @@ import (
 
 func SearchingAll(ctx context.Context, searchAll string) ([]datastruct.Stores, []datastruct.Products, []datastruct.Categories, error) {
 	db, err := logging.PembuatanKoneksi()
-	var searchAll []datastruct.Stores, []datastruct.Products, []datastruct.Categories
+	var searchAll ([]datastruct.Stores, []datastruct.Products, []datastruct.Categories)
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
-	queryText := fmt.Sprintf("SELECT * FROM stores WHERE nama_toko LIKE '%%%s%%' OR nama_kota LIKE '%%%s%%' OR nama_kecamatan LIKE '%%%s%%' OR nama_domain LIKE '%%%s%%'",
+	queryText := fmt.Sprintf("SELECT * FROM stores, products, categories WHERE nama_toko LIKE '%%%s%%' OR nama_kota LIKE '%%%s%%' OR nama_kecamatan LIKE '%%%s%%' OR nama_domain LIKE '%%%s%%' OR nama_toko LIKE '%%%s%%' OR nama_produk LIKE '%%%s%%'",
+		searchAll,
+		searchAll,
 		searchAll,
 		searchAll,
 		searchAll,
@@ -26,7 +28,7 @@ func SearchingAll(ctx context.Context, searchAll string) ([]datastruct.Stores, [
 	s, err := db.ExecContext(ctx, queryText)
 
 	if err != nil && err != sql.ErrNoRows {
-		return stores, err
+		return searchAll, err
 	}
 
 	check, err := s.RowsAffected()
