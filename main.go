@@ -20,22 +20,24 @@ func main() {
 
 		//storeprofile
 		router := httprouter.New()
-		router.GET("/stores", Auth(transport_stores.GetAllStore))
-		router.GET("/stores/:search", Auth(transport_stores.GetOneStore))
+		router.GET("/stores", transport_stores.GetAllStore)
+		router.GET("/stores/:search", transport_stores.SearchStores)
 		router.POST("/stores", Auth(transport_stores.PostStore))
 		router.PUT("/stores/:id", Auth(transport_stores.UpdateStore))
 		router.DELETE("/stores/:id", Auth(transport_stores.DeleteStore))
 		////////////////////////////////////////////////////
 
 		//products
-		router.GET("/products", Auth(transport_products.GetProducts))
-		router.POST("/products", transport_products.PostProducts)
-		router.PUT("/products/:id", transport_products.UpdateProducts)
+		router.GET("/products", transport_products.GetAllProducts)
+		router.GET("/products/:search", transport_products.SearchProducts)
+		router.POST("/products", Auth(transport_products.PostProducts))
+		router.PUT("/products/:id", Auth(transport_products.UpdateProducts))
 		router.DELETE("/products/:id", Auth(transport_products.DeleteProducts))
 		////////////////////////////////////////////////////
 
 		//Categories
-		router.GET("/categories", Auth(transport_categories.GetCategories))
+		router.GET("/categories", (transport_categories.GetAllCategories))
+		router.GET("/categories/:search", transport_categories.SearchCategories)
 		router.POST("/categories", Auth(transport_categories.PostCategories))
 		router.PUT("/categories/:id", Auth(transport_categories.UpdateCategories))
 		router.DELETE("/categories/:id", Auth(transport_categories.DeleteCategories))

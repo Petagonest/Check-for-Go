@@ -14,7 +14,7 @@ import (
 //--------Products----------//
 // Read
 // GetProducts
-func GetProducts(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+func GetAllProducts(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	defer cancel()
@@ -26,6 +26,24 @@ func GetProducts(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 	}
 
 	logging.ResponseJSON(w, product, http.StatusOK)
+}
+
+func SearchProducts(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	var searchProducts = ps.ByName("search")
+	products, err := products.SearchingProducts(ctx, searchProducts)
+
+	if err != nil {
+		kesalahan := map[string]string{
+			"error": fmt.Sprintf("%v", err),
+		}
+		logging.ResponseJSON(w, kesalahan, http.StatusInternalServerError)
+		return
+	}
+
+	logging.ResponseJSON(w, products, http.StatusOK)
 }
 
 // Create

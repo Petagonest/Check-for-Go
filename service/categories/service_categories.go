@@ -50,6 +50,54 @@ func GetAll(ctx context.Context) ([]datastruct.Categories, error) {
 	return categories, nil
 }
 
+func SearchingCategories(ctx context.Context, searchCategories string) ([]datastruct.Categories, error) {
+	db, err := logging.PembuatanKoneksi()
+	var categories []datastruct.Categories
+
+	if err != nil {
+		log.Fatal("Yah gagal connect ke Postgress :(", err)
+	}
+	queryText := fmt.Sprintf("SELECT * FROM categories WHERE nama_category LIKE '%%%s%%' OR deskripsi_category LIKE '%%%s%%'",
+		searchCategories,
+		searchCategories)
+	s, err := db.ExecContext(ctx, queryText)
+
+	if err != nil && err != sql.ErrNoRows {
+		return categories, err
+	}
+
+	check, err := s.RowsAffected()
+	fmt.Println(check)
+	if check == 0 {
+		return categories, errors.New("Maaf kata kunci yang Anda cari tidak ditemukan di database kami :(")
+	}
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	rowQuery, err := db.QueryContext(ctx, queryText)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for rowQuery.Next() {
+		var category datastruct.Categories
+
+		if err = rowQuery.Scan(
+			&category.Category_id,
+			&category.Nama_category,
+			&category.Deskripsi_category,
+		); err != nil {
+			return nil, err
+		}
+
+		categories = append(categories, category)
+	}
+
+	return categories, nil
+}
+
 // Insert categories
 func Insert(ctx context.Context, category datastruct.Categories) error {
 	db, err := logging.PembuatanKoneksi()

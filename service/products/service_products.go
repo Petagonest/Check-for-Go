@@ -58,6 +58,60 @@ func GetAll(ctx context.Context) ([]datastruct.Products, error) {
 	return products, nil
 }
 
+func SearchingProducts(ctx context.Context, searchProducts string) ([]datastruct.Products, error) {
+	db, err := logging.PembuatanKoneksi()
+	var products []datastruct.Products
+
+	if err != nil {
+		log.Fatal("Yah gagal connect ke Postgress :(", err)
+	}
+	queryText := fmt.Sprintf("SELECT * FROM products WHERE nama_produk LIKE '%%%s%%'", searchProducts)
+	s, err := db.ExecContext(ctx, queryText)
+
+	if err != nil && err != sql.ErrNoRows {
+		return products, err
+	}
+
+	check, err := s.RowsAffected()
+	fmt.Println(check)
+	if check == 0 {
+		return products, errors.New("Maaf kata kunci yang Anda cari tidak ditemukan di database kami :(")
+	}
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	rowQuery, err := db.QueryContext(ctx, queryText)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for rowQuery.Next() {
+		var product datastruct.Products
+
+		if err = rowQuery.Scan(
+			&product.Produk_id,
+			&product.Nama_produk,
+			&product.Deskripsi_produk,
+			&product.Stok,
+			&product.Harga_produk,
+			&product.Foto_produk,
+			&product.Rating_produk,
+			&product.Jumlah_terjual,
+			&product.Jumlah_dilihat,
+			&product.Ukuran,
+			&product.Warna,
+		); err != nil {
+			return nil, err
+		}
+
+		products = append(products, product)
+	}
+
+	return products, nil
+}
+
 // Insert products
 func Insert(ctx context.Context, produk datastruct.Products) error {
 	db, err := logging.PembuatanKoneksi()

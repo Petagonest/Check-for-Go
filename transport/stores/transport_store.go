@@ -30,12 +30,12 @@ func GetAllStore(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
 }
 
 // GetOneStore
-func GetOneStore(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
+func SearchStores(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	var searchStores = ps.ByName("search")
-	stores, err := stores.GetOneStore(ctx, searchStores)
+	stores, err := stores.SearchingStores(ctx, searchStores)
 
 	if err != nil {
 		kesalahan := map[string]string{

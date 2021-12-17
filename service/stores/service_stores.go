@@ -62,14 +62,18 @@ func GetAll(ctx context.Context) ([]datastruct.Stores, error) {
 	return stores, nil
 }
 
-func GetOneStore(ctx context.Context, searchStores string) ([]datastruct.Stores, error) {
+func SearchingStores(ctx context.Context, searchStores string) ([]datastruct.Stores, error) {
 	db, err := logging.PembuatanKoneksi()
 	var stores []datastruct.Stores
 
 	if err != nil {
 		log.Fatal("Yah gagal connect ke Postgress :(", err)
 	}
-	queryText := fmt.Sprintf("SELECT * FROM stores where toko_id = %s", searchStores)
+	queryText := fmt.Sprintf("SELECT * FROM stores WHERE nama_toko LIKE '%%%s%%' OR nama_kota LIKE '%%%s%%' OR nama_kecamatan LIKE '%%%s%%' OR nama_domain LIKE '%%%s%%'",
+		searchStores,
+		searchStores,
+		searchStores,
+		searchStores)
 	s, err := db.ExecContext(ctx, queryText)
 
 	if err != nil && err != sql.ErrNoRows {
@@ -79,7 +83,7 @@ func GetOneStore(ctx context.Context, searchStores string) ([]datastruct.Stores,
 	check, err := s.RowsAffected()
 	fmt.Println(check)
 	if check == 0 {
-		return stores, errors.New("GAADA")
+		return stores, errors.New("Maaf kata kunci yang Anda cari tidak ditemukan di database kami :(")
 	}
 
 	if err != nil {
